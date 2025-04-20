@@ -47,11 +47,4 @@ Permettant de voir la liste des films enregistrés en favoris
 o NavBar : permettant de naviguer vers l’accueil et les favoris
 
 o Champs de recherche : permettant de rechercher des films via l’API
-themoviedb
-
-## Aide :
-
-### • Requêtes :
-
-o Découverte de films: “/discover/movie”
-o Recherche de films: “/search/movie” + query
+#### *themoviedb (*pas d'API existante, à créé moi même)
