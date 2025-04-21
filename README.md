@@ -51,6 +51,4 @@ o Champs de recherche : permettant de rechercher des films via l’API
 
 ### 🔗 Liens
 
-**[Backend Repository](https://github.com/cedric-chimot/allo-movie-front)** : Le lien vers le repository GitHub contenant le code frontend.
-
-
+**[Frontend Repository](https://github.com/cedric-chimot/allo-movie-front)** : Le lien vers le repository GitHub contenant le code frontend.
