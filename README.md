@@ -48,3 +48,9 @@ o NavBar : permettant de naviguer vers l’accueil et les favoris
 
 o Champs de recherche : permettant de rechercher des films via l’API
 #### *themoviedb (*pas d'API existante, à créé moi même)
+
+### 🔗 Liens
+
+**[Backend Repository](https://github.com/cedric-chimot/allo-movie-front)** : Le lien vers le repository GitHub contenant le code frontend.
+
+
