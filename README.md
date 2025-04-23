@@ -12,7 +12,12 @@ laquelle on pourra enregistrer des films en favoris.
 
 ### Premier apperçu de la bdd (sujet à modification évidemment) :
 
+_Le MCD :_
+
 ![Capture d'écran 2025-04-23 103619](https://github.com/user-attachments/assets/481146de-be18-44ee-9a51-6313a48bfd89)
+
+_Le MLD :_
+
 ![Capture d'écran 2025-04-23 103642](https://github.com/user-attachments/assets/2cf782be-2097-4510-8b8c-de0ab9ac2deb)
 
 
