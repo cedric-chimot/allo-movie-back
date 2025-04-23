@@ -12,8 +12,8 @@ laquelle on pourra enregistrer des films en favoris.
 
 ### Premier apperçu de la bdd (sujet à modification évidemment) :
 
-![Capture d'écran 2025-04-22 103917](https://github.com/user-attachments/assets/f059aa0c-a31b-4c99-90f9-5f0e46c2b2c3)
-![Capture d'écran 2025-04-22 103621](https://github.com/user-attachments/assets/b4530c63-a31f-4570-9e23-6b9d9308c49b)
+
+
 
 
 ### 🔗 Liens
