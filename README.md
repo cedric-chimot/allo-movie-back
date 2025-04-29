@@ -14,11 +14,11 @@ laquelle on pourra enregistrer des films en favoris.
 
 _Le MCD :_
 
-![Capture d'écran 2025-04-25 101441](https://github.com/user-attachments/assets/177cf7ab-5c8c-46c4-87f9-da915b9874ad)
+![allomovieBDD](https://github.com/user-attachments/assets/6669a706-9bc7-485b-b219-73d91cc37cc1)
 
 _Le MLD :_
 
-![Capture d'écran 2025-04-25 101501](https://github.com/user-attachments/assets/cdd7b692-86b0-431d-8cd0-bd06972fef38)
+![allomovieMLD](https://github.com/user-attachments/assets/7c10ac94-a9ca-41a9-a7bb-05a9a2f693b6)
 
 
 ### 🔗 Liens
