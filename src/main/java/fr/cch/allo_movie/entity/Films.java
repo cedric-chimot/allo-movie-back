@@ -1,10 +1,13 @@
 package fr.cch.allo_movie.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
+
+import java.util.List;
 
 @Getter
 @Setter
@@ -33,6 +36,10 @@ public class Films {
 
   @Column(name = "note_moyenne")
   private Long noteMoyenne;
+
+  @JsonIgnore
+  @OneToMany(mappedBy = "film")
+  private List<Comments> commentsList;
 
   public Films(String titre, Long dateSortie, String synopsis, String image, Long noteMoyenne) {
     this.titre = titre;

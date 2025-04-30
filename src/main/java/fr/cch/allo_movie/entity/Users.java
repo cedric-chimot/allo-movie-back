@@ -1,10 +1,13 @@
 package fr.cch.allo_movie.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
+
+import java.util.List;
 
 @Getter
 @Setter
@@ -40,6 +43,10 @@ public class Users {
 
   @Column(name = "est_banni")
   private Boolean estBanni;
+
+  @JsonIgnore
+  @OneToMany(mappedBy = "user")
+  private List<Comments> commentsList;
 
   public Users(String pseudo, String email, String mdp, Role role, Long avertissements, Long dateBan, Boolean estBanni) {
     this.pseudo = pseudo;
