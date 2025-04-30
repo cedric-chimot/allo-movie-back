@@ -1,9 +1,9 @@
 package fr.cch.allo_movie.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
+
+import java.util.List;
 
 public class Role {
 
@@ -14,6 +14,10 @@ public class Role {
 
   @Column(name = "role")
   private String role;
+
+  @JsonIgnore
+  @OneToMany(mappedBy = "role")
+  private List<Users> usersList;
 
   @Override
   public String toString() {
