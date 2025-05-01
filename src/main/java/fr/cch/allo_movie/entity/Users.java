@@ -32,7 +32,7 @@ public class Users {
   private String mdp;
 
   @ManyToOne
-  @Column(name = "id_role")
+  @JoinColumn(name = "id_role")
   private Role role;
 
   @Column(name = "avertissements")

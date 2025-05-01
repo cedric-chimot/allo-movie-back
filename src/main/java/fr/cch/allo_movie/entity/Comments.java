@@ -29,11 +29,11 @@ public class Comments {
   private Long note;
 
   @ManyToOne
-  @Column(name = "id_user")
+  @JoinColumn(name = "id_user")
   private Users user;
 
   @ManyToOne
-  @Column(name = "id_film")
+  @JoinColumn(name = "id_film")
   private Films film;
 
   public Comments(String comment, Long dateComment, Long note, Users user, Films film) {
