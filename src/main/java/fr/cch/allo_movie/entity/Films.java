@@ -20,7 +20,7 @@ public class Films {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "id")
-  private Integer id;
+  private Long id;
 
   @Column(name = "titre")
   private String titre;
@@ -36,6 +36,10 @@ public class Films {
 
   @Column(name = "note_moyenne")
   private Long noteMoyenne;
+
+  @JsonIgnore
+  @OneToMany(mappedBy = "films", cascade = CascadeType.ALL)
+  private List<CategorieFilms> categorieFilmsList;
 
   @JsonIgnore
   @OneToMany(mappedBy = "film")
