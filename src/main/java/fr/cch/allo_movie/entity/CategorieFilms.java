@@ -20,11 +20,11 @@ public class CategorieFilms {
   private Long id;
 
   @ManyToOne
-  @JoinColumn(name = "id_categorie")
+  @JoinColumn(name = "categorie_id")
   private Categorie categorie;
 
   @ManyToOne
-  @JoinColumn(name = "id_film")
+  @JoinColumn(name = "film_id")
   private Films films;
 
   public CategorieFilms(Categorie categorie, Films films) {

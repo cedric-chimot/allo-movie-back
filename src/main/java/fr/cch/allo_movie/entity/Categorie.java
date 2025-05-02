@@ -24,9 +24,6 @@ public class Categorie {
   @Column(name = "categorie")
   private String categorie;
 
-  @OneToMany(mappedBy = "categorie", cascade = CascadeType.ALL)
-  private List<CategorieFilms> categorieFilmsList;
-
   @Override
   public String toString() {
     return "Categorie{" +

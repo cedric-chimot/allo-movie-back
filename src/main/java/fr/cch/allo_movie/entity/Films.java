@@ -7,7 +7,9 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -40,6 +42,15 @@ public class Films {
   @JsonIgnore
   @OneToMany(mappedBy = "films", cascade = CascadeType.ALL)
   private List<CategorieFilms> categorieFilmsList;
+
+  @JsonIgnore
+  @ManyToMany
+  @JoinTable(
+    name = "categorie_films",
+    joinColumns = @JoinColumn(name = "film_id"),
+    inverseJoinColumns = @JoinColumn(name = "categorie_id")
+  )
+  private Set<Categorie> categories = new HashSet<>();
 
   @JsonIgnore
   @OneToMany(mappedBy = "film")
