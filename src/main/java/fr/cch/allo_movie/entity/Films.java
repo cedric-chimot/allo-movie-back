@@ -53,6 +53,15 @@ public class Films {
   private Set<Categorie> categories = new HashSet<>();
 
   @JsonIgnore
+  @ManyToMany
+  @JoinTable(
+    name = "favoris",
+    joinColumns = @JoinColumn(name = "film_id"),
+    inverseJoinColumns = @JoinColumn(name = "user_id")
+  )
+  private Set<Users> users = new HashSet<>();
+
+  @JsonIgnore
   @OneToMany(mappedBy = "film")
   private List<Comments> commentsList;
 
