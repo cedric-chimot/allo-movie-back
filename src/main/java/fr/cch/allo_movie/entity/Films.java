@@ -55,11 +55,20 @@ public class Films {
   @JsonIgnore
   @ManyToMany
   @JoinTable(
-    name = "realisateur_films",
+    name = "realisateurs_films",
     joinColumns = @JoinColumn(name = "film_id"),
     inverseJoinColumns = @JoinColumn(name = "realisateur_id")
   )
   private Set<Realisateurs> realisateurs = new HashSet<>();
+
+  @JsonIgnore
+  @ManyToMany
+  @JoinTable(
+    name = "acteurs_films",
+    joinColumns = @JoinColumn(name = "film_id"),
+    inverseJoinColumns = @JoinColumn(name = "acteur_id")
+  )
+  private Set<Acteurs> acteurs = new HashSet<>();
 
   @JsonIgnore
   @ManyToMany
