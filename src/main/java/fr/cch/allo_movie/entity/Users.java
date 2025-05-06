@@ -48,6 +48,10 @@ public class Users {
   @OneToMany(mappedBy = "user")
   private List<Comments> commentsList;
 
+  @JsonIgnore
+  @OneToMany(mappedBy = "users")
+  private List<Reponses> reponsesList;
+
   public Users(String pseudo, String email, String mdp, Role role, Long avertissements, Long dateBan, Boolean estBanni) {
     this.pseudo = pseudo;
     this.email = email;

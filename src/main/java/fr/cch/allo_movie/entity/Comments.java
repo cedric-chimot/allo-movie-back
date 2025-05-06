@@ -1,10 +1,13 @@
 package fr.cch.allo_movie.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
+
+import java.util.List;
 
 @Getter
 @Setter
@@ -35,6 +38,10 @@ public class Comments {
   @ManyToOne
   @JoinColumn(name = "id_film")
   private Films film;
+
+  @JsonIgnore
+  @OneToMany(mappedBy = "comments")
+  private List<Reponses> reponsesList;
 
   public Comments(String comment, Long dateComment, Long note, Users user, Films film) {
     this.comment = comment;
