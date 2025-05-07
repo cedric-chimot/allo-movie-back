@@ -52,6 +52,10 @@ public class Users {
   @OneToMany(mappedBy = "users")
   private List<Reponses> reponsesList;
 
+  @JsonIgnore
+  @OneToMany(mappedBy = "userSignal")
+  private List<Signalements> signalementsList;
+
   public Users(String pseudo, String email, String mdp, Role role, Long avertissements, Long dateBan, Boolean estBanni) {
     this.pseudo = pseudo;
     this.email = email;

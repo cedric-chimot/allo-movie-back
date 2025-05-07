@@ -1,10 +1,13 @@
 package fr.cch.allo_movie.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
+
+import java.util.List;
 
 @Getter
 @Setter
@@ -33,6 +36,10 @@ public class Reponses {
 
   @Column(name = "id_comment")
   private Comments comments;
+
+  @JsonIgnore
+  @OneToMany(mappedBy = "reponseSignal")
+  private List<Signalements> signalementsList;
 
   public Reponses(Long dateReponse, String message, Reponses reponseEnfant, Users users, Comments comments) {
     this.dateReponse = dateReponse;
