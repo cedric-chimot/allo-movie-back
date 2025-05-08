@@ -28,15 +28,27 @@ public class Reponses {
   @Column(name = "message")
   private String message;
 
-  @Column(name = "id_reponse_enfant")
+  // Relation avec une autre réponse (réponse à une réponse précédente)
+  @ManyToOne
+  @JoinColumn(name = "id_reponse_enfant")
   private Reponses reponseEnfant;
 
-  @Column(name = "id_user")
+  // Relation avec un utilisateur
+  @ManyToOne
+  @JoinColumn(name = "id_user")
   private Users users;
 
-  @Column(name = "id_comment")
+  // Relation avec un commentaire
+  @ManyToOne
+  @JoinColumn(name = "id_comment")
   private Comments comments;
 
+  // Liste des réponses enfants, cette relation est mappée dans l'autre sens
+  @JsonIgnore
+  @OneToMany(mappedBy = "reponseEnfant")
+  private List<Reponses> reponsesEnfants;
+
+  // Liste des signalements associés à cette réponse
   @JsonIgnore
   @OneToMany(mappedBy = "reponseSignal")
   private List<Signalements> signalementsList;
