@@ -12,11 +12,11 @@ laquelle on pourra enregistrer des films en favoris.
 
 ### Premier apperçu de la bdd (sujet à modification évidemment) :
 
-_Le MCD :_
+## 🗂️ Le MCD (Modèle Conceptuel de Données)
 
 ![allomovieBDD](https://github.com/user-attachments/assets/6669a706-9bc7-485b-b219-73d91cc37cc1)
 
-_Le MLD :_
+## 📊 Le MLD (Modèle Logique de Données)
 
 ![allomovieMLD](https://github.com/user-attachments/assets/7c10ac94-a9ca-41a9-a7bb-05a9a2f693b6)
 
