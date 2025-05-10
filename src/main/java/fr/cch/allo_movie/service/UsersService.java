@@ -80,7 +80,7 @@ public class UsersService {
    * @param user L'objet à mettre à jour
    * @return L'objet mis à jour
    */
-  public Users updateAttaque(Users user) {
+  public Users updateUser(Users user) {
     Optional<Users> isUserExist= userRepository.findById(user.getId());
 
     if (isUserExist.isPresent()) {
