@@ -66,6 +66,13 @@ public class Users {
     this.estBanni = estBanni;
   }
 
+  public Users(String pseudo, String email, String mdp, Role role) {
+    this.pseudo = pseudo;
+    this.email = email;
+    this.mdp = mdp;
+    this.role = role;
+  }
+
   @Override
   public String toString() {
     return "Users{" +
