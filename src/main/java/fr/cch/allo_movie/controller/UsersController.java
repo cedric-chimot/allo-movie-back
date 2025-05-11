@@ -75,7 +75,7 @@ public class UsersController {
    * @return l'utilisateur mis à jour
    */
   @PutMapping("/update")
-  public Users updateAttaque(@RequestBody Users user) {
+  public Users updateUser(@RequestBody Users user) {
     return userService.updateUser(user);
   }
 
