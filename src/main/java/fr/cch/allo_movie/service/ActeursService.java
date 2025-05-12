@@ -1,6 +1,5 @@
 package fr.cch.allo_movie.service;
 
-import fr.cch.allo_movie.entity.Role;
 import fr.cch.allo_movie.entity.Acteurs;
 import fr.cch.allo_movie.exceptions.CustomException;
 import fr.cch.allo_movie.repository.ActeursRepository;
@@ -29,13 +28,9 @@ public class ActeursService {
 
   /**
    * Méthode pour ajouter un acteur
-   * @param nom son nom
-   * @param prenom son prénom
    * @return l'acteur ajouté
    */
-  public Acteurs save(String nom, String prenom) {
-    Acteurs acteur = new Acteurs(nom, prenom);
-
+  public Acteurs save(Acteurs acteur) {
     return acteurRepository.save(acteur);
   }
 

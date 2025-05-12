@@ -32,10 +32,7 @@ public class ActeursController {
    */
   @PostMapping("/create")
   public ResponseEntity<Acteurs> saveActeur(@RequestBody Acteurs acteur) {
-    Acteurs acteurSave = acteurService.save(
-      acteur.getNom(),
-      acteur.getPrenom()
-    );
+    Acteurs acteurSave = acteurService.save(acteur);
     return ResponseEntity.ok(acteurSave);
   }
 
