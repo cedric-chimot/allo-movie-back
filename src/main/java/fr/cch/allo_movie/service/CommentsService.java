@@ -81,7 +81,7 @@ public class CommentsService {
    * @param user L'objet à mettre à jour
    * @return L'objet mis à jour
    */
-  public Comments updateUser(Comments comment) {
+  public Comments updateComment(Comments comment) {
     Optional<Comments> isCommentExist= userRepository.findById(comment.getId());
 
     if (isCommentExist.isPresent()) {
