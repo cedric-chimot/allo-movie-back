@@ -6,6 +6,7 @@ import fr.cch.allo_movie.exceptions.CustomException;
 import fr.cch.allo_movie.repository.UsersRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
+import org.mindrot.jbcrypt.BCrypt;
 
 import java.util.List;
 import java.util.Optional;
@@ -44,9 +45,36 @@ public class UsersService {
   public Users save(String pseudo, String email, String mdp, Long idRole) {
     Role role = roleService.findById(idRole);
 
-    Users user = new Users(pseudo, email, mdp, role);
+    // Hashage du mot de passe avec BCrypt
+    String hashedPassword = BCrypt.hashpw(mdp, BCrypt.gensalt());
+
+    Users user = new Users(pseudo, email, hashedPassword, role);
 
     return userRepository.save(user);
+  }
+
+  /**
+   * Authentification d'un utilisateur
+   *
+   * @param email l'email de l'utilisateur
+   * @param mdp le mot de passe fourni
+   * @return l'utilisateur authentifié
+   * @throws CustomException si l'utilisateur n'existe pas ou si le mot de passe est incorrect
+   */
+  public Users login(String email, String mdp) {
+    Optional<Users> optionalUser = userRepository.findByEmail(email);
+
+    if (optionalUser.isEmpty()) {
+      throw new CustomException("Email", "email", email);
+    }
+
+    Users user = optionalUser.get();
+
+    if (!BCrypt.checkpw(mdp, user.getMdp())) {
+      throw new CustomException("Mot de passe", "email", email);
+    }
+
+    return user;
   }
 
   /**
@@ -81,14 +109,20 @@ public class UsersService {
    * @return L'objet mis à jour
    */
   public Users updateUser(Users user) {
-    Optional<Users> isUserExist= userRepository.findById(user.getId());
+    Optional<Users> isUserExist = userRepository.findById(user.getId());
 
     if (isUserExist.isPresent()) {
       Users existingUser = isUserExist.get();
 
       existingUser.setPseudo(user.getPseudo());
       existingUser.setEmail(user.getEmail());
-      existingUser.setMdp(user.getMdp());
+
+      // Vérifier si le mot de passe a changé
+      if (user.getMdp() != null && !user.getMdp().isBlank()) {
+        String hashedPassword = BCrypt.hashpw(user.getMdp(), BCrypt.gensalt());
+        existingUser.setMdp(hashedPassword);
+      }
+
       existingUser.setRole(user.getRole());
       return userRepository.save(existingUser);
     } else {
