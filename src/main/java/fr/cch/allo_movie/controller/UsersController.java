@@ -1,5 +1,6 @@
 package fr.cch.allo_movie.controller;
 
+import fr.cch.allo_movie.dtos.LoginRequestDTO;
 import fr.cch.allo_movie.entity.Users;
 import fr.cch.allo_movie.service.UsersService;
 import org.springframework.http.ResponseEntity;
@@ -39,6 +40,17 @@ public class UsersController {
       user.getRole().getId()
     );
     return ResponseEntity.ok(userSave);
+  }
+
+  /**
+   * Connexion d'un utilisateur
+   * @param loginRequest les champs requis pour la connexion
+   * @return l'utilisateur connecté
+   */
+  @PostMapping("/login")
+  public ResponseEntity<Users> login(@RequestBody LoginRequestDTO loginRequest) {
+    Users user = userService.login(loginRequest.getEmail(), loginRequest.getMdp());
+    return ResponseEntity.ok(user);
   }
 
   /**
