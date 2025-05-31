@@ -48,9 +48,18 @@ public class UsersController {
    * @return l'utilisateur connecté
    */
   @PostMapping("/login")
-  public ResponseEntity<Users> login(@RequestBody LoginRequestDTO loginRequest) {
+  public ResponseEntity<?> login(@RequestBody LoginRequestDTO loginRequest) {
     Users user = userService.login(loginRequest.getEmail(), loginRequest.getMdp());
+    if (user == null) {
+      // Utilisateur non trouvé ou mauvais mot de passe
+      return ResponseEntity.status(401).body("Email ou mot de passe incorrect");
+    }
     return ResponseEntity.ok(user);
+  }
+
+  @GetMapping("/email/{email}")
+  public Users getUserByMail(@PathVariable String email) {
+    return userService.findByEmail(email);
   }
 
   /**
