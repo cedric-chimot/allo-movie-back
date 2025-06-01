@@ -18,7 +18,7 @@ public class CommentsService {
   /**
    * Le repository des commentaires
    */
-  private final CommentsRepository userRepository;
+  private final CommentsRepository commentRepository;
 
   /**
    * Le service des utilisateurs
@@ -32,10 +32,10 @@ public class CommentsService {
 
   /**
    * Le constructeur
-   * @param userRepository Injection du repository
+   * @param commentRepository Injection du repository
    */
-  public CommentsService(CommentsRepository userRepository, UsersService usersService, FilmsService filmsService) {
-    this.userRepository = userRepository;
+  public CommentsService(CommentsRepository commentRepository, UsersService usersService, FilmsService filmsService) {
+    this.commentRepository = commentRepository;
     this.usersService = usersService;
     this.filmsService = filmsService;
   }
@@ -55,7 +55,7 @@ public class CommentsService {
 
     Comments comments = new Comments(comment, dateComment, note, user, film);
 
-    return userRepository.save(comments);
+    return commentRepository.save(comments);
   }
 
   /**
@@ -63,7 +63,7 @@ public class CommentsService {
    * @return la liste des commentaires
    */
   public List<Comments> findAll() {
-    return userRepository.findAll();
+    return commentRepository.findAll();
   }
 
   /**
@@ -72,7 +72,7 @@ public class CommentsService {
    * @return le commentaire trouvé
    */
   public Comments findById(Long id) {
-    return userRepository.findById(id)
+    return commentRepository.findById(id)
       .orElseThrow(() -> new CustomException("Comments", "id", id)); // Renvoie l'entité
   }
 
@@ -82,7 +82,7 @@ public class CommentsService {
    * @return L'objet mis à jour
    */
   public Comments updateComment(Comments comment) {
-    Optional<Comments> isCommentExist= userRepository.findById(comment.getId());
+    Optional<Comments> isCommentExist= commentRepository.findById(comment.getId());
 
     if (isCommentExist.isPresent()) {
       Comments existingComment = isCommentExist.get();
@@ -92,7 +92,7 @@ public class CommentsService {
       existingComment.setNote(comment.getNote());
       existingComment.setUser(comment.getUser());
       existingComment.setFilm(comment.getFilm());
-      return userRepository.save(existingComment);
+      return commentRepository.save(existingComment);
     } else {
       throw new CustomException("L'commentaire n'existe pas", "id", comment.getId());
     }
@@ -105,12 +105,12 @@ public class CommentsService {
    */
   public Comments deleteById(Long id) {
     // Récupérer l'objet dans un Optional
-    Optional<Comments> optionalComments = userRepository.findById(id);
+    Optional<Comments> optionalComments = commentRepository.findById(id);
 
     // Vérifier si l'objet existe
     if (optionalComments.isPresent()) {
       Comments user = optionalComments.get();
-      userRepository.delete(user); // Supprimer l'objet
+      commentRepository.delete(user); // Supprimer l'objet
       return user; // Retourner l'objet supprimé
     } else {
       throw new CustomException("Comments", "id",  id);
@@ -121,7 +121,7 @@ public class CommentsService {
    * Supprimer tous les commentaires
    */
   public void deleteAll() {
-    userRepository.deleteAll();
+    commentRepository.deleteAll();
   }
 
 }
