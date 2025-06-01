@@ -1,8 +1,9 @@
 package fr.cch.allo_movie.service;
 
+import fr.cch.allo_movie.entity.Reponses;
 import fr.cch.allo_movie.entity.Signalements;
-import fr.cch.allo_movie.entity.Films;
 import fr.cch.allo_movie.entity.Users;
+import fr.cch.allo_movie.enums.MotifsEnum;
 import fr.cch.allo_movie.exceptions.CustomException;
 import fr.cch.allo_movie.repository.SignalementsRepository;
 
@@ -24,32 +25,40 @@ public class SignalementsService {
   /**
    * Le service des film
    */
-  private final FilmsService filmsService;
+  private final ReponsesService reponsesService;
 
   /**
    * Le constructeur
    * @param signalementRepository Injection du repository
    */
-  public SignalementsService(SignalementsRepository signalementRepository, UsersService usersService, FilmsService filmsService) {
+  public SignalementsService(SignalementsRepository signalementRepository, UsersService usersService, ReponsesService reponsesService) {
     this.signalementRepository = signalementRepository;
     this.usersService = usersService;
-    this.filmsService = filmsService;
+    this.reponsesService = reponsesService;
   }
 
   /**
    * Méthode pour ajouter un signalement
-   * @param signalement le signalement
-   * @param dateComment la date d'ajout
-   * @param note la note donnée au film
-   * @param idUser l'utilisateur qui signalemente
-   * @param idFilm le film signalementé
-   * @return
+   * @param motif le motif du signalement
+   * @param dateSignalement la date
+   * @param message le message d'accompagnement
+   * @param idUser l'utilisateur qui signale
+   * @param idReponse la réponse signalée
+   * @return le nouveau signalement
    */
-  public Signalements save(String signalement, Long dateComment, Long note, Long idUser, Long idFilm) {
+  public Signalements save(String motif, Long dateSignalement, String message, Long idUser, Long idReponse) {
     Users user = usersService.findById(idUser);
-    Films film = filmsService.findById(idFilm);
+    Reponses reponse = reponsesService.findById(idReponse);
 
-    Signalements signalements = new Signalements(signalement, dateComment, note, user, film);
+    // Convertir la chaîne de caractères en enum
+    MotifsEnum motifEnum;
+    try {
+      motifEnum = MotifsEnum.valueOf(motif);
+    } catch (IllegalArgumentException e) {
+      throw new CustomException("Motif invalide : ", "motif", motif);
+    }
+
+    Signalements signalements = new Signalements(motifEnum, dateSignalement, message, user, reponse);
 
     return signalementRepository.save(signalements);
   }
@@ -74,24 +83,43 @@ public class SignalementsService {
 
   /**
    * Mettre à jour un signalement
-   * @param user L'objet à mettre à jour
-   * @return L'objet mis à jour
+   * @param id l'id du signalement
+   * @param motif le motif
+   * @param dateSignalement la date
+   * @param message le message d'accompagnement
+   * @param idUser l'utilisateur qui signale
+   * @param idReponse la réponse signalée
+   * @return le signalement mis à jour
    */
-  public Signalements updateComment(Signalements signalement) {
-    Optional<Signalements> isCommentExist= signalementRepository.findById(signalement.getId());
+  public Signalements updateSignalement(Long id, String motif, Long dateSignalement, String message, Long idUser, Long idReponse) {
+    Optional<Signalements> optionalSignalement = signalementRepository.findById(id);
 
-    if (isCommentExist.isPresent()) {
-      Signalements existingComment = isCommentExist.get();
-
-      existingComment.setComment(signalement.getComment());
-      existingComment.setDateComment(signalement.getDateComment());
-      existingComment.setNote(signalement.getNote());
-      existingComment.setUser(signalement.getUser());
-      existingComment.setFilm(signalement.getFilm());
-      return signalementRepository.save(existingComment);
-    } else {
-      throw new CustomException("L'signalement n'existe pas", "id", signalement.getId());
+    if (optionalSignalement.isEmpty()) {
+      throw new CustomException("Le signalement n'existe pas", "id", id);
     }
+
+    Signalements existingSignalement = optionalSignalement.get();
+
+    try {
+      // Conversion du motif
+      MotifsEnum motifEnum = MotifsEnum.valueOf(motif);
+      existingSignalement.setMotif(motifEnum);
+    } catch (IllegalArgumentException e) {
+      throw new CustomException("Motif invalide", "motif", motif);
+    }
+
+    // Mise à jour des autres champs
+    existingSignalement.setDateSignalement(dateSignalement);
+    existingSignalement.setMessage(message);
+
+    // Mise à jour des relations
+    Users user = usersService.findById(idUser);
+    existingSignalement.setUserSignal(user);
+
+    Reponses reponse = reponsesService.findById(idReponse);
+    existingSignalement.setReponseSignal(reponse);
+
+    return signalementRepository.save(existingSignalement);
   }
 
   /**
@@ -119,7 +147,5 @@ public class SignalementsService {
   public void deleteAll() {
     signalementRepository.deleteAll();
   }
-
-}
 
 }
