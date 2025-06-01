@@ -26,7 +26,7 @@ public class CommentsController {
   }
 
   /**
-   * Ajouter un nouvel commentaire
+   * Ajouter un nouveau commentaire
    * @param comment le commentaire à ajouter
    * @return le commentaire nouvellement ajouté
    */
