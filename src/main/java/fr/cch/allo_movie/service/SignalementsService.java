@@ -6,10 +6,14 @@ import fr.cch.allo_movie.entity.Users;
 import fr.cch.allo_movie.enums.MotifsEnum;
 import fr.cch.allo_movie.exceptions.CustomException;
 import fr.cch.allo_movie.repository.SignalementsRepository;
+import jakarta.transaction.Transactional;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
+@Service
+@Transactional
 public class SignalementsService {
 
   /**
