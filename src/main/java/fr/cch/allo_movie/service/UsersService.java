@@ -39,11 +39,11 @@ public class UsersService {
    * @param pseudo son pseudo
    * @param email son mail
    * @param mdp son mot de passe
-   * @param idRole son rôle
    * @return l'utilisateur ajouté
    */
-  public Users save(String pseudo, String email, String mdp, Long idRole) {
-    Role role = roleService.findById(idRole);
+  public Users save(String pseudo, String email, String mdp) {
+    // Récupérer le rôle par ID 2 (User)
+    Role role = roleService.findById(2L);
 
     // Hashage du mot de passe avec BCrypt
     String hashedPassword = BCrypt.hashpw(mdp, BCrypt.gensalt());
@@ -62,12 +62,15 @@ public class UsersService {
    * @throws CustomException si l'utilisateur n'existe pas ou si le mot de passe est incorrect
    */
   public Users login(String email, String mdp) {
-    // Supposons que tu recherches dans ta base
     Users user = findByEmail(email);
     if (user == null) return null;
-    // Compare mot de passe (attention à l’encodage, ici en clair pour l’exemple)
-    if (!user.getMdp().equals(mdp)) return null;
-    return user;
+
+    // Vérifier le mot de passe avec BCrypt
+    if (!BCrypt.checkpw(mdp, user.getMdp())) {
+      return null; // mot de passe incorrect
+    }
+
+    return user; // connexion réussie
   }
 
   /**

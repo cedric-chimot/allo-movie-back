@@ -36,8 +36,7 @@ public class UsersController {
     Users userSave = userService.save(
       user.getPseudo(),
       user.getEmail(),
-      user.getMdp(),
-      user.getRole().getId()
+      user.getMdp()
     );
     return ResponseEntity.ok(userSave);
   }
