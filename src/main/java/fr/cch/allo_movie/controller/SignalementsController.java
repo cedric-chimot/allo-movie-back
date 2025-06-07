@@ -71,7 +71,7 @@ public class SignalementsController {
    * @param idReponse la réponse signalée
    * @return le signalement mis à jour
    */
-  @PatchMapping("/update/{id}")
+  @PatchMapping("/update")
   public ResponseEntity<Signalements> updateSignalement(
     @PathVariable Long id,
     @RequestParam String motif,
