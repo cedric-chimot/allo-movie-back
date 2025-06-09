@@ -8,6 +8,7 @@ import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 import org.mindrot.jbcrypt.BCrypt;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -42,13 +43,13 @@ public class UsersService {
    * @return l'utilisateur ajouté
    */
   public Users save(String pseudo, String email, String mdp) {
-    // Récupérer le rôle par ID 2 (User)
     Role role = roleService.findById(2L);
 
-    // Hashage du mot de passe avec BCrypt
     String hashedPassword = BCrypt.hashpw(mdp, BCrypt.gensalt());
 
-    Users user = new Users(pseudo, email, hashedPassword, role);
+    LocalDateTime dateInscrit = LocalDateTime.now(); // date et heure actuelles
+
+    Users user = new Users(pseudo, email, hashedPassword, role, dateInscrit);
 
     return userRepository.save(user);
   }

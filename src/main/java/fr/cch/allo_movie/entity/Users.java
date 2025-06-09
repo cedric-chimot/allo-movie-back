@@ -6,7 +6,9 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
@@ -19,7 +21,7 @@ public class Users {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "id")
+  @Column(name = "id_user")
   private Long id;
 
   @Column(name = "pseudo")
@@ -44,6 +46,10 @@ public class Users {
   @Column(name = "est_banni")
   private Boolean estBanni;
 
+  @Column(name = "date_inscrit", updatable = false)
+  @CreationTimestamp
+  private LocalDateTime dateInscrit;
+
   @JsonIgnore
   @OneToMany(mappedBy = "user")
   private List<Comments> commentsList;
@@ -56,21 +62,13 @@ public class Users {
   @OneToMany(mappedBy = "userSignal")
   private List<Signalements> signalementsList;
 
-  public Users(String pseudo, String email, String mdp, Role role, Long avertissements, Long dateBan, Boolean estBanni) {
+  // Constructeur pour save() basique
+  public Users(String pseudo, String email, String mdp, Role role, LocalDateTime dateInscrit) {
     this.pseudo = pseudo;
     this.email = email;
     this.mdp = mdp;
     this.role = role;
-    this.avertissements = avertissements;
-    this.dateBan = dateBan;
-    this.estBanni = estBanni;
-  }
-
-  public Users(String pseudo, String email, String mdp, Role role) {
-    this.pseudo = pseudo;
-    this.email = email;
-    this.mdp = mdp;
-    this.role = role;
+    this.dateInscrit = dateInscrit;
   }
 
   @Override
@@ -84,6 +82,7 @@ public class Users {
       ", avertissements=" + avertissements +
       ", dateBan=" + dateBan +
       ", estBanni=" + estBanni +
+      ", dateInscrit=" + dateInscrit +
       '}';
   }
 }
