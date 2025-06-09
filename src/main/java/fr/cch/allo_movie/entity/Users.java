@@ -62,6 +62,10 @@ public class Users {
   @OneToMany(mappedBy = "userSignal")
   private List<Signalements> signalementsList;
 
+  @JsonIgnore
+  @OneToMany(mappedBy = "userMessage")
+  private List<Message> messageList;
+
   // Constructeur pour save() basique
   public Users(String pseudo, String email, String mdp, Role role, LocalDateTime dateInscrit) {
     this.pseudo = pseudo;
