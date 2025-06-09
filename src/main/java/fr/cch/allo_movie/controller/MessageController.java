@@ -1,7 +1,6 @@
 package fr.cch.allo_movie.controller;
 
-import fr.cch.allo_movie.entity.Message;
-import fr.cch.allo_movie.entity.Users;
+import fr.cch.allo_movie.entity.Messages;
 import fr.cch.allo_movie.service.MessageService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -33,9 +32,9 @@ public class MessageController {
    * @return le nouveau message
    */
   @PostMapping("/create")
-  public ResponseEntity<Message> createMessage(@RequestParam String content, @RequestParam Long userId) {
-    Message message = messageService.saveMessage(content, userId);
-    return ResponseEntity.ok(message);
+  public ResponseEntity<Messages> createMessage(@RequestParam String content, @RequestParam Long userId) {
+    Messages messages = messageService.saveMessage(content, userId);
+    return ResponseEntity.ok(messages);
   }
 
   /**
@@ -43,7 +42,7 @@ public class MessageController {
    * @return la liste des messages
    */
   @GetMapping("/all")
-  public ResponseEntity<List<Message>> getAllMessages() {
+  public ResponseEntity<List<Messages>> getAllMessages() {
     return ResponseEntity.ok(messageService.getAllMessages());
   }
 
@@ -53,7 +52,7 @@ public class MessageController {
    * @return le message recherché
    */
   @GetMapping("/{id}")
-  public ResponseEntity<Message> getMessageById(@PathVariable Long id) {
+  public ResponseEntity<Messages> getMessageById(@PathVariable Long id) {
     return ResponseEntity.ok(messageService.getMessageById(id));
   }
 
@@ -64,9 +63,9 @@ public class MessageController {
    * @return le message mis à jour
    */
   @PatchMapping("/update/{id}")
-  public ResponseEntity<Message> updateMessage(@PathVariable Long id, @RequestParam String content) {
-    Message updatedMessage = messageService.updateMessage(id, content);
-    return ResponseEntity.ok(updatedMessage);
+  public ResponseEntity<Messages> updateMessage(@PathVariable Long id, @RequestParam String content) {
+    Messages updatedMessages = messageService.updateMessage(id, content);
+    return ResponseEntity.ok(updatedMessages);
   }
 
   /**
@@ -75,7 +74,7 @@ public class MessageController {
    * @return le message supprimé
    */
   @DeleteMapping("/delete/{id}")
-  public Message deleteMessageById(@PathVariable Long id) {
+  public Messages deleteMessageById(@PathVariable Long id) {
     return messageService.deleteById(id);
   }
 

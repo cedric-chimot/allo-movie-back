@@ -13,8 +13,8 @@ import java.time.LocalDateTime;
 @RequiredArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "message")
-public class Message {
+@Table(name = "messages")
+public class Messages {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,10 +28,10 @@ public class Message {
   private String message;
 
   @ManyToOne
-  @JoinColumn(name = "id_user", nullable = false)
+  @JoinColumn(name = "id_user")
   private Users userMessage;
 
-  public Message(LocalDateTime dateMessage, String message, Users user) {
+  public Messages(LocalDateTime dateMessage, String message, Users user) {
     this.dateMessage = dateMessage;
     this.message = message;
     this.userMessage = user;

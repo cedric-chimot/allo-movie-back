@@ -21,7 +21,7 @@ public class Users {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "id_user")
+  @Column(name = "id")
   private Long id;
 
   @Column(name = "pseudo")
@@ -64,7 +64,7 @@ public class Users {
 
   @JsonIgnore
   @OneToMany(mappedBy = "userMessage")
-  private List<Message> messageList;
+  private List<Messages> messagesList;
 
   // Constructeur pour save() basique
   public Users(String pseudo, String email, String mdp, Role role, LocalDateTime dateInscrit) {

@@ -1,6 +1,6 @@
 package fr.cch.allo_movie.service;
 
-import fr.cch.allo_movie.entity.Message;
+import fr.cch.allo_movie.entity.Messages;
 import fr.cch.allo_movie.entity.Users;
 import fr.cch.allo_movie.exceptions.CustomException;
 import fr.cch.allo_movie.repository.MessageRepository;
@@ -32,22 +32,22 @@ public class MessageService {
    * @param userId l'id de l'utilisateur envoyant le message
    * @return le nouveau message
    */
-  public Message saveMessage(String content, Long userId) {
+  public Messages saveMessage(String content, Long userId) {
     Users user = usersService.findById(userId);
 
-    Message message = new Message();
-    message.setMessage(content);
-    message.setUserMessage(user);
-    message.setDateMessage(LocalDateTime.now());
+    Messages messages = new Messages();
+    messages.setMessage(content);
+    messages.setUserMessage(user);
+    messages.setDateMessage(LocalDateTime.now());
 
-    return messageRepository.save(message);
+    return messageRepository.save(messages);
   }
 
   /**
    * Méthode pour trouver tous les messages
    * @return la liste des messages
    */
-  public List<Message> getAllMessages() {
+  public List<Messages> getAllMessages() {
     return messageRepository.findAll();
   }
 
@@ -56,7 +56,7 @@ public class MessageService {
    * @param id l'id du message recherché
    * @return L'objet trouvé
    */
-  public Message getMessageById(Long id) {
+  public Messages getMessageById(Long id) {
     return messageRepository.findById(id)
       .orElseThrow(() -> new RuntimeException("Message non trouvé"));
   }
@@ -67,14 +67,14 @@ public class MessageService {
    * @param content le contenu du message
    * @return le message mis à jour
    */
-  public Message updateMessage(Long id, String content) {
-    Message existingMessage = messageRepository.findById(id)
+  public Messages updateMessage(Long id, String content) {
+    Messages existingMessages = messageRepository.findById(id)
       .orElseThrow(() -> new RuntimeException("Message non trouvé"));
 
-    existingMessage.setMessage(content);
-    existingMessage.setDateMessage(LocalDateTime.now());
+    existingMessages.setMessage(content);
+    existingMessages.setDateMessage(LocalDateTime.now());
 
-    return messageRepository.save(existingMessage);
+    return messageRepository.save(existingMessages);
   }
 
   /**
@@ -82,15 +82,15 @@ public class MessageService {
    * @param id l'id du message à supprimer
    * @return L'objet supprimé
    */
-  public Message deleteById(Long id) {
+  public Messages deleteById(Long id) {
     // Récupérer l'objet dans un Optional
-    Optional<Message> optionalUsers = messageRepository.findById(id);
+    Optional<Messages> optionalUsers = messageRepository.findById(id);
 
     // Vérifier si l'objet existe
     if (optionalUsers.isPresent()) {
-      Message message = optionalUsers.get();
-      messageRepository.delete(message); // Supprimer l'objet
-      return message; // Retourner l'objet supprimé
+      Messages messages = optionalUsers.get();
+      messageRepository.delete(messages); // Supprimer l'objet
+      return messages; // Retourner l'objet supprimé
     } else {
       throw new CustomException("Message", "id",  id);
     }
