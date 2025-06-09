@@ -22,7 +22,7 @@ laquelle on pourra enregistrer des films en favoris.
 
 ## 🖥️ Le rendu sur Workbench
 
-![Capture d'écran 2025-06-09 140836](https://github.com/user-attachments/assets/67bb91e1-3f00-4428-a728-0e6d8331acde)
+![Capture d'écran 2025-06-09 151643](https://github.com/user-attachments/assets/e11bde96-b3d9-41ce-a01e-7b8de547af30)
 
 ### 🔗 Liens
 
