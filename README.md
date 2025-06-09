@@ -18,7 +18,7 @@ laquelle on pourra enregistrer des films en favoris.
 
 ## 📊 Le MLD (Modèle Logique de Données)
 
-![Capture d'écran 2025-06-09 140836](https://github.com/user-attachments/assets/88099c73-80a7-437d-8022-d57d91e923e7)
+![Capture d'écran 2025-06-09 150809](https://github.com/user-attachments/assets/ca0d7cce-92c0-4574-8621-0d415456fd1b)
 
 ## 🖥️ Le rendu sur Workbench
 
