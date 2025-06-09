@@ -18,11 +18,11 @@ laquelle on pourra enregistrer des films en favoris.
 
 ## 📊 Le MLD (Modèle Logique de Données)
 
-![allomovieMLD](https://github.com/user-attachments/assets/7c10ac94-a9ca-41a9-a7bb-05a9a2f693b6)
+![Capture d'écran 2025-06-09 140836](https://github.com/user-attachments/assets/88099c73-80a7-437d-8022-d57d91e923e7)
 
 ## 🖥️ Le rendu sur Workbench
 
-![Capture d'écran 2025-05-08 140105](https://github.com/user-attachments/assets/3feffee7-116c-4777-a6a9-182ad7e9ab43)
+![Capture d'écran 2025-06-09 140836](https://github.com/user-attachments/assets/67bb91e1-3f00-4428-a728-0e6d8331acde)
 
 ### 🔗 Liens
 
