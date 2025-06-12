@@ -123,13 +123,14 @@ public class UsersService {
       existingUser.setPseudo(user.getPseudo());
       existingUser.setEmail(user.getEmail());
 
-      // Vérifier si le mot de passe a changé
       if (user.getMdp() != null && !user.getMdp().isBlank()) {
         String hashedPassword = BCrypt.hashpw(user.getMdp(), BCrypt.gensalt());
         existingUser.setMdp(hashedPassword);
       }
 
+      existingUser.setPresentation(user.getPresentation());
       existingUser.setRole(user.getRole());
+
       return userRepository.save(existingUser);
     } else {
       throw new CustomException("L'utilisateur n'existe pas", "id", user.getId());

@@ -37,6 +37,9 @@ public class Users {
   @JoinColumn(name = "id_role")
   private Role role;
 
+  @Column(name = "presentation")
+  private String presentation;
+
   @Column(name = "avertissements")
   private Long avertissements;
 
