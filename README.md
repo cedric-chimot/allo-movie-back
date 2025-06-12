@@ -14,7 +14,7 @@ laquelle on pourra enregistrer des films en favoris.
 
 ## 🗂️ Le MCD (Modèle Conceptuel de Données)
 
-![Capture d'écran 2025-06-09 150748](https://github.com/user-attachments/assets/c348e02d-8750-46d7-a571-221b1662679f)
+![Capture d'écran 2025-06-12 111142](https://github.com/user-attachments/assets/205e85e3-842a-4a5f-90e1-b5b095a1098e)
 
 ## 📊 Le MLD (Modèle Logique de Données)
 
