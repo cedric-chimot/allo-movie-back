@@ -76,6 +76,7 @@ public class Users {
     this.mdp = mdp;
     this.role = role;
     this.dateInscrit = dateInscrit;
+    this.presentation = null;
   }
 
   @Override
@@ -86,6 +87,7 @@ public class Users {
       ", email='" + email + '\'' +
       ", mdp='" + mdp + '\'' +
       ", role=" + role +
+      ", presentation=" + presentation +
       ", avertissements=" + avertissements +
       ", dateBan=" + dateBan +
       ", estBanni=" + estBanni +
