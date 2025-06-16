@@ -25,7 +25,6 @@ laquelle on pourra enregistrer des films en favoris.
 
 ![Capture d'écran 2025-06-12 112556](https://github.com/user-attachments/assets/d0ed34b4-afc8-4a18-b3af-234065ffcd4b)
 
-
 ### 🔗 Liens
 
 **[Frontend Repository](https://github.com/cedric-chimot/allo-movie-front)** : Le lien vers le repository GitHub contenant le code frontend.
