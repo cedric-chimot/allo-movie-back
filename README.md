@@ -5,12 +5,12 @@
 
 ## Description :
 
-### Application à la Allociné.
+### Application à la Allo-ciné.
 
 Il s’agit de créer une application de découverte et recherche de films, avec
 laquelle on pourra enregistrer des films en favoris.
 
-### Premier apperçu de la bdd (sujet à modification évidemment) :
+### Premier aperçu de la bdd (sujet à modification évidemment) :
 
 ## 🗂️ Le MCD (Modèle Conceptuel de Données)
 
@@ -26,4 +26,4 @@ laquelle on pourra enregistrer des films en favoris.
 
 ### 🔗 Liens
 
-**[Frontend Repository](https://github.com/cedric-chimot/allo-movie-front)** : Le lien vers le repository GitHub contenant le code frontend.
+**[Frontend Repository](https://github.com/cedric-chimot/allo-movie-front)** : Le lien vers le repository Git Hub contenant le code frontend.
