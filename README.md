@@ -26,4 +26,6 @@ laquelle on pourra enregistrer des films en favoris.
 
 ### 🔗 Liens
 
+
 **[Frontend Repository](https://github.com/cedric-chimot/allo-movie-front)** : Le lien vers le repository Git Hub contenant le code frontend.
+
