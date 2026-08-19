@@ -20,7 +20,7 @@ public class ActeursFilms {
   private Long id;
 
   @ManyToOne
-  @JoinColumn(name = "categorie_id")
+  @JoinColumn(name = "acteur_id")
   private Acteurs acteurs;
 
   @ManyToOne
