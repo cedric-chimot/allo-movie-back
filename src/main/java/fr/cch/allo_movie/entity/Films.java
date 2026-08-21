@@ -37,7 +37,7 @@ public class Films {
   private String image;
 
   @Column(name = "note_moyenne")
-  private Long noteMoyenne;
+  private Double noteMoyenne;
 
   @JsonIgnore
   @OneToMany(mappedBy = "films", cascade = CascadeType.ALL)
@@ -83,7 +83,13 @@ public class Films {
   @OneToMany(mappedBy = "film")
   private List<Comments> commentsList;
 
-  public Films(String titre, Long dateSortie, String synopsis, String image, Long noteMoyenne) {
+  public Films(
+    String titre,
+    Long dateSortie,
+    String synopsis,
+    String image,
+    Double noteMoyenne
+  ) {
     this.titre = titre;
     this.dateSortie = dateSortie;
     this.synopsis = synopsis;
