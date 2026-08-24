@@ -31,6 +31,7 @@ public class Films {
   private Long dateSortie;
 
   @Column(name = "synopsis")
+  @Lob
   private String synopsis;
 
   @Column(name = "image")
