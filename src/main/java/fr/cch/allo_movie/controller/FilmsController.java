@@ -56,6 +56,16 @@ public class FilmsController {
   }
 
   /**
+   * Afficher les 4 films les plus récemment sortis
+   *
+   * @return les 4 derniers films
+   */
+  @GetMapping("/latest")
+  public List<Films> findLatestFilms() {
+    return filmService.findLatestFilms();
+  }
+
+  /**
    * Mettre à jour un film
    * @param film le film à mettre à jour
    * @return le film mis à jour

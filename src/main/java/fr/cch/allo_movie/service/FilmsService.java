@@ -53,6 +53,15 @@ public class FilmsService {
   }
 
   /**
+   * Récupérer les 4 films les plus récemment sortis
+   *
+   * @return les 4 derniers films
+   */
+  public List<Films> findLatestFilms() {
+    return filmRepository.findTop4ByOrderByDateSortieDesc();
+  }
+
+  /**
    * Mettre à jour un film
    * @param film L'objet à mettre à jour
    * @return L'objet mis à jour
