@@ -55,7 +55,7 @@ public class FilmsService {
   /**
    * Récupérer les 4 films les plus récemment sortis
    *
-   * @return les 4 derniers films
+   * @return les 4 films avec les dates de sortie les plus récentes
    */
   public List<Films> findLatestFilms() {
     return filmRepository.findTop4ByOrderByDateSortieDesc();
