@@ -34,7 +34,7 @@ public class Films {
   @Lob
   private String synopsis;
 
-  @Column(name = "resume_long")
+  @Column(name = "resume_long", length = 6000)
   private String resumeLong;
 
   @Column(name = "image")
