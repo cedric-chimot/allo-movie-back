@@ -5,6 +5,14 @@ import fr.cch.allo_movie.exceptions.CustomException;
 import fr.cch.allo_movie.repository.FilmsRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
+import fr.cch.allo_movie.dtos.ActeurDetailDTO;
+import fr.cch.allo_movie.dtos.FilmDetailDTO;
+import fr.cch.allo_movie.entity.ActeursFilms;
+import fr.cch.allo_movie.entity.CategorieFilms;
+import fr.cch.allo_movie.entity.RealisateursFilms;
+import fr.cch.allo_movie.repository.ActeursFilmsRepository;
+import fr.cch.allo_movie.repository.CategorieFilmsRepository;
+import fr.cch.allo_movie.repository.RealisateursFilmsRepository;
 
 import java.util.List;
 import java.util.Optional;
@@ -19,11 +27,21 @@ public class FilmsService {
   private final FilmsRepository filmRepository;
 
   /**
+   * Les repositories pour les relations
+   */
+  private final ActeursFilmsRepository acteursFilmsRepository;
+  private final RealisateursFilmsRepository realisateursFilmsRepository;
+  private final CategorieFilmsRepository categorieFilmsRepository;
+
+  /**
    * Le constructeur
    * @param filmRepository Injection du repository
    */
-  public FilmsService(FilmsRepository filmRepository) {
+  public FilmsService(FilmsRepository filmRepository, ActeursFilmsRepository acteursFilmsRepository, RealisateursFilmsRepository realisateursFilmsRepository, CategorieFilmsRepository categorieFilmsRepository) {
     this.filmRepository = filmRepository;
+    this.acteursFilmsRepository = acteursFilmsRepository;
+    this.realisateursFilmsRepository = realisateursFilmsRepository;
+    this.categorieFilmsRepository = categorieFilmsRepository;
   }
 
   /**
@@ -59,6 +77,53 @@ public class FilmsService {
    */
   public List<Films> findLatestFilms() {
     return filmRepository.findTop4ByOrderByDateSortieDesc();
+  }
+
+  /**
+   * Récupérer un film et toutes ses informations détaillées
+   * @param id L'id du film
+   * @return Le détail complet d'un film
+   */
+  public FilmDetailDTO findDetailById(Long id) {
+
+    Films film = filmRepository.findById(id)
+      .orElseThrow(() -> new CustomException("Films", "id", id));
+
+    List<RealisateursFilms> realisateursFilms =
+      realisateursFilmsRepository.findByFilmsId(id);
+
+    List<ActeursFilms> acteursFilms =
+      acteursFilmsRepository.findByFilmsId(id);
+
+    List<CategorieFilms> categorieFilms =
+      categorieFilmsRepository.findByFilmsId(id);
+
+    String realisateur = realisateursFilms.stream()
+      .map(rf ->
+        rf.getRealisateurs().getPrenom() + " " +
+          rf.getRealisateurs().getNom()
+      )
+      .findFirst()
+      .orElse("");
+
+    List<ActeurDetailDTO> acteurs = acteursFilms.stream()
+      .map(af -> new ActeurDetailDTO(
+        af.getActeurs().getNom(),
+        af.getActeurs().getPrenom(),
+        af.getRole()
+      ))
+      .toList();
+
+    List<String> categories = categorieFilms.stream()
+      .map(cf -> cf.getCategorie().getCategorie())
+      .toList();
+
+    return new FilmDetailDTO(
+      film,
+      realisateur,
+      acteurs,
+      categories
+    );
   }
 
   /**

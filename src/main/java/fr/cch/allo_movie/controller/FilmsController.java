@@ -2,6 +2,7 @@ package fr.cch.allo_movie.controller;
 
 import fr.cch.allo_movie.entity.Films;
 import fr.cch.allo_movie.service.FilmsService;
+import fr.cch.allo_movie.dtos.FilmDetailDTO;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -63,6 +64,16 @@ public class FilmsController {
   @GetMapping("/latest")
   public List<Films> findLatestFilms() {
     return filmService.findLatestFilms();
+  }
+
+  /**
+   * Récupérer les détails d'un film par son ID
+   * @param id L'id du film
+   * @return Le film récupéré et ses infos détaillées
+   */
+  @GetMapping("/{id}/detail")
+  public FilmDetailDTO findDetailById(@PathVariable Long id) {
+    return filmService.findDetailById(id);
   }
 
   /**
