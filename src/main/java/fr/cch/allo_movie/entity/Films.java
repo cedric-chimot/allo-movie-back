@@ -34,6 +34,9 @@ public class Films {
   @Lob
   private String synopsis;
 
+  @Column(name = "resume_long")
+  private String resumeLong;
+
   @Column(name = "image")
   private String image;
 
@@ -88,12 +91,14 @@ public class Films {
     String titre,
     Long dateSortie,
     String synopsis,
+    String resumeLong,
     String image,
     Double noteMoyenne
   ) {
     this.titre = titre;
     this.dateSortie = dateSortie;
     this.synopsis = synopsis;
+    this.resumeLong = resumeLong;
     this.image = image;
     this.noteMoyenne = noteMoyenne;
   }
@@ -105,6 +110,7 @@ public class Films {
       ", titre='" + titre + '\'' +
       ", dateSortie=" + dateSortie +
       ", synopsis='" + synopsis + '\'' +
+      ", resume='" + resumeLong + '\'' +
       ", image='" + image + '\'' +
       ", noteMoyenne=" + noteMoyenne +
       '}';
