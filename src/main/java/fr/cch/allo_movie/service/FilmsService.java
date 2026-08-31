@@ -140,11 +140,13 @@ public class FilmsService {
       existingFilm.setTitre(film.getTitre());
       existingFilm.setDateSortie(film.getDateSortie());
       existingFilm.setSynopsis(film.getSynopsis());
+      existingFilm.setResumeLong(film.getResumeLong());
+      existingFilm.setDuree(film.getDuree());
       existingFilm.setImage(film.getImage());
       existingFilm.setNoteMoyenne(film.getNoteMoyenne());
       return filmRepository.save(existingFilm);
     } else {
-      throw new CustomException("L'film n'existe pas", "id", film.getId());
+      throw new CustomException("Le film n'existe pas", "id", film.getId());
     }
   }
 
