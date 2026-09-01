@@ -1,5 +1,6 @@
 package fr.cch.allo_movie.dtos;
 
+import fr.cch.allo_movie.entity.Films;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -9,10 +10,8 @@ import java.util.List;
 @Setter
 public class FilmCreateDTO {
 
-  private String titre;
-  private Long dateSortie;
-  private String synopsis;
-  private String image;
+  private Films film;
+
   private List<Long> categories;
 
 }

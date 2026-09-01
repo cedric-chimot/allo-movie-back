@@ -1,8 +1,9 @@
 package fr.cch.allo_movie.controller;
 
+import fr.cch.allo_movie.dtos.FilmCreateDTO;
+import fr.cch.allo_movie.dtos.FilmDetailDTO;
 import fr.cch.allo_movie.entity.Films;
 import fr.cch.allo_movie.service.FilmsService;
-import fr.cch.allo_movie.dtos.FilmDetailDTO;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,6 +21,7 @@ public class FilmsController {
 
   /**
    * Le constructeur
+   *
    * @param filmService Injection du service
    */
   public FilmsController(FilmsService filmService) {
@@ -27,18 +29,8 @@ public class FilmsController {
   }
 
   /**
-   * Ajouter un nouveau film
-   * @param film le film à ajouter
-   * @return le film nouvellement ajouté
-   */
-  @PostMapping("/create")
-  public ResponseEntity<Films> saveFilm(@RequestBody Films film) {
-    Films filmSave = filmService.save(film);
-    return ResponseEntity.ok(filmSave);
-  }
-
-  /**
    * Afficher la liste de tous les films
+   *
    * @return la liste des films
    */
   @GetMapping("/all")
@@ -48,7 +40,8 @@ public class FilmsController {
 
   /**
    * Trouver un film par son id
-   * @param id l'id d'un film
+   *
+   * @param id l'id du film
    * @return le film recherché
    */
   @GetMapping("/{id}")
@@ -68,6 +61,7 @@ public class FilmsController {
 
   /**
    * Récupérer les détails d'un film par son ID
+   *
    * @param id L'id du film
    * @return Le film récupéré et ses infos détaillées
    */
@@ -77,7 +71,24 @@ public class FilmsController {
   }
 
   /**
+   * Ajouter un nouveau film
+   *
+   * @param filmCreateDTO les données du film et les catégories
+   * @return le film nouvellement ajouté
+   */
+  @PostMapping("/create")
+  public ResponseEntity<Films> saveFilm(
+    @RequestBody FilmCreateDTO filmCreateDTO
+  ) {
+
+    Films filmSave = filmService.save(filmCreateDTO);
+
+    return ResponseEntity.ok(filmSave);
+  }
+
+  /**
    * Mettre à jour un film
+   *
    * @param film le film à mettre à jour
    * @return le film mis à jour
    */
@@ -88,7 +99,8 @@ public class FilmsController {
 
   /**
    * Supprimer un film par son id
-   * @param id l'id de l'film à supprimer
+   *
+   * @param id l'id du film
    * @return le film supprimé
    */
   @DeleteMapping("/delete/{id}")
@@ -103,5 +115,4 @@ public class FilmsController {
   public void deleteAllFilms() {
     filmService.deleteAll();
   }
-
 }

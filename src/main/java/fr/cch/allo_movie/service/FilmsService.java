@@ -1,13 +1,17 @@
 package fr.cch.allo_movie.service;
 
-import fr.cch.allo_movie.dtos.FilmCreateDTO;
-import fr.cch.allo_movie.entity.*;
-import fr.cch.allo_movie.exceptions.CustomException;
-import fr.cch.allo_movie.repository.*;
-import jakarta.transaction.Transactional;
-import org.springframework.stereotype.Service;
 import fr.cch.allo_movie.dtos.ActeurDetailDTO;
 import fr.cch.allo_movie.dtos.FilmDetailDTO;
+import fr.cch.allo_movie.dtos.FilmCreateDTO;
+import fr.cch.allo_movie.entity.ActeursFilms;
+import fr.cch.allo_movie.entity.Films;
+import fr.cch.allo_movie.entity.RealisateursFilms;
+import fr.cch.allo_movie.exceptions.CustomException;
+import fr.cch.allo_movie.repository.ActeursFilmsRepository;
+import fr.cch.allo_movie.repository.FilmsRepository;
+import fr.cch.allo_movie.repository.RealisateursFilmsRepository;
+import jakarta.transaction.Transactional;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
@@ -22,65 +26,31 @@ public class FilmsService {
   private final FilmsRepository filmRepository;
 
   /**
-   * Le repository des catégories
-   */
-  private final CategorieRepository categorieRepository;
-
-  /**
    * Les repositories pour les relations
    */
   private final ActeursFilmsRepository acteursFilmsRepository;
   private final RealisateursFilmsRepository realisateursFilmsRepository;
-  private final CategorieFilmsRepository categorieFilmsRepository;
+
+  /**
+   * Le service pour gérer les relations film / catégorie
+   */
+  private final CategorieFilmsService categorieFilmsService;
 
   /**
    * Le constructeur
-   * @param filmRepository Injection du repository
    */
-  public FilmsService(FilmsRepository filmRepository, CategorieRepository categorieRepository, ActeursFilmsRepository acteursFilmsRepository, RealisateursFilmsRepository realisateursFilmsRepository, CategorieFilmsRepository categorieFilmsRepository) {
+  public FilmsService(FilmsRepository filmRepository, ActeursFilmsRepository acteursFilmsRepository, RealisateursFilmsRepository realisateursFilmsRepository,
+    CategorieFilmsService categorieFilmsService
+  ) {
     this.filmRepository = filmRepository;
-    this.categorieRepository = categorieRepository;
     this.acteursFilmsRepository = acteursFilmsRepository;
     this.realisateursFilmsRepository = realisateursFilmsRepository;
-    this.categorieFilmsRepository = categorieFilmsRepository;
-  }
-
-  /**
-   * Méthode pour ajouter un film
-   * @param dto Les données du film à ajouter
-   * @return Le film ajouté
-   */
-  public Films save(FilmCreateDTO dto) {
-
-    Films film = new Films();
-
-    film.setTitre(dto.getTitre());
-    film.setDateSortie(dto.getDateSortie());
-    film.setSynopsis(dto.getSynopsis());
-    film.setImage(dto.getImage());
-
-    Films filmSauvegarde = filmRepository.save(film);
-
-    if (dto.getCategories() != null) {
-      for (Long categorieId : dto.getCategories()) {
-
-        Categorie categorie = categorieRepository.findById(categorieId)
-          .orElseThrow(() ->
-            new CustomException("Categorie", "id", categorieId)
-          );
-
-        CategorieFilms categorieFilm =
-          new CategorieFilms(categorie, filmSauvegarde);
-
-        categorieFilmsRepository.save(categorieFilm);
-      }
-    }
-
-    return filmSauvegarde;
+    this.categorieFilmsService = categorieFilmsService;
   }
 
   /**
    * Méthode pour trouver tous les films
+   *
    * @return la liste des films
    */
   public List<Films> findAll() {
@@ -88,13 +58,16 @@ public class FilmsService {
   }
 
   /**
-   * Méthode pour trouver un film par son id (retourne l'entité complète)
+   * Méthode pour trouver un film par son id
+   *
    * @param id l'id du film recherché
    * @return le film trouvé
    */
   public Films findById(Long id) {
     return filmRepository.findById(id)
-      .orElseThrow(() -> new CustomException("Films", "id", id)); // Renvoie l'entité
+      .orElseThrow(() ->
+        new CustomException("Films", "id", id)
+      );
   }
 
   /**
@@ -108,22 +81,22 @@ public class FilmsService {
 
   /**
    * Récupérer un film et toutes ses informations détaillées
+   *
    * @param id L'id du film
    * @return Le détail complet d'un film
    */
   public FilmDetailDTO findDetailById(Long id) {
 
     Films film = filmRepository.findById(id)
-      .orElseThrow(() -> new CustomException("Films", "id", id));
+      .orElseThrow(() ->
+        new CustomException("Films", "id", id)
+      );
 
     List<RealisateursFilms> realisateursFilms =
       realisateursFilmsRepository.findByFilmsId(id);
 
     List<ActeursFilms> acteursFilms =
       acteursFilmsRepository.findByFilmsId(id);
-
-    List<CategorieFilms> categorieFilms =
-      categorieFilmsRepository.findByFilmsId(id);
 
     List<String> realisateurs = realisateursFilms.stream()
       .map(rf ->
@@ -140,6 +113,9 @@ public class FilmsService {
       ))
       .toList();
 
+    List<fr.cch.allo_movie.entity.CategorieFilms> categorieFilms =
+      categorieFilmsService.findByFilmsId(id);
+
     List<String> categories = categorieFilms.stream()
       .map(cf -> cf.getCategorie().getCategorie())
       .toList();
@@ -153,14 +129,47 @@ public class FilmsService {
   }
 
   /**
+   * Méthode pour ajouter un film
+   *
+   * @param filmDTO les données du film et les catégories sélectionnées
+   * @return Le film ajouté
+   */
+  public Films save(FilmCreateDTO filmDTO) {
+
+    // Récupérer le film complet envoyé par le formulaire
+    Films film = filmDTO.getFilm();
+
+    // Sauvegarder le film
+    Films filmSauvegarde = filmRepository.save(film);
+
+    // Créer une relation pour chaque catégorie
+    if (filmDTO.getCategories() != null) {
+
+      for (Long categorieId : filmDTO.getCategories()) {
+
+        categorieFilmsService.save(
+          categorieId,
+          filmSauvegarde.getId()
+        );
+      }
+    }
+
+    return filmSauvegarde;
+  }
+
+  /**
    * Mettre à jour un film
+   *
    * @param film L'objet à mettre à jour
    * @return L'objet mis à jour
    */
   public Films updateFilm(Films film) {
-    Optional<Films> isFilmExist= filmRepository.findById(film.getId());
+
+    Optional<Films> isFilmExist =
+      filmRepository.findById(film.getId());
 
     if (isFilmExist.isPresent()) {
+
       Films existingFilm = isFilmExist.get();
 
       existingFilm.setTitre(film.getTitre());
@@ -170,28 +179,45 @@ public class FilmsService {
       existingFilm.setDuree(film.getDuree());
       existingFilm.setImage(film.getImage());
       existingFilm.setNoteMoyenne(film.getNoteMoyenne());
+
       return filmRepository.save(existingFilm);
+
     } else {
-      throw new CustomException("Le film n'existe pas", "id", film.getId());
+
+      throw new CustomException(
+        "Le film n'existe pas",
+        "id",
+        film.getId()
+      );
     }
   }
 
   /**
    * Méthode pour supprimer un film par son Id
-   * @param id L'identifiant de l'film à supprimer
+   *
+   * @param id L'identifiant du film à supprimer
    * @return L'objet supprimé
    */
   public Films deleteById(Long id) {
-    // Récupérer l'objet dans un Optional
-    Optional<Films> optionalFilms = filmRepository.findById(id);
 
-    // Vérifier si l'objet existe
+    Optional<Films> optionalFilms =
+      filmRepository.findById(id);
+
     if (optionalFilms.isPresent()) {
+
       Films film = optionalFilms.get();
-      filmRepository.delete(film); // Supprimer l'objet
-      return film; // Retourner l'objet supprimé
+
+      filmRepository.delete(film);
+
+      return film;
+
     } else {
-      throw new CustomException("Films", "id",  id);
+
+      throw new CustomException(
+        "Films",
+        "id",
+        id
+      );
     }
   }
 
@@ -201,5 +227,4 @@ public class FilmsService {
   public void deleteAll() {
     filmRepository.deleteAll();
   }
-
 }
