@@ -98,13 +98,12 @@ public class FilmsService {
     List<CategorieFilms> categorieFilms =
       categorieFilmsRepository.findByFilmsId(id);
 
-    String realisateur = realisateursFilms.stream()
+    List<String> realisateurs = realisateursFilms.stream()
       .map(rf ->
         rf.getRealisateurs().getPrenom() + " " +
           rf.getRealisateurs().getNom()
       )
-      .findFirst()
-      .orElse("");
+      .toList();
 
     List<ActeurDetailDTO> acteurs = acteursFilms.stream()
       .map(af -> new ActeurDetailDTO(
@@ -120,7 +119,7 @@ public class FilmsService {
 
     return new FilmDetailDTO(
       film,
-      realisateur,
+      realisateurs,
       acteurs,
       categories
     );

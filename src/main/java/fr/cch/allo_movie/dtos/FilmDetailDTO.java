@@ -11,7 +11,7 @@ import java.util.List;
 public class FilmDetailDTO {
 
   private Films film;
-  private String realisateur;
+  private List<String> realisateurs;
   private List<ActeurDetailDTO> acteurs;
   private List<String> categories;
 
