@@ -1,18 +1,13 @@
 package fr.cch.allo_movie.service;
 
-import fr.cch.allo_movie.entity.Films;
+import fr.cch.allo_movie.dtos.FilmCreateDTO;
+import fr.cch.allo_movie.entity.*;
 import fr.cch.allo_movie.exceptions.CustomException;
-import fr.cch.allo_movie.repository.FilmsRepository;
+import fr.cch.allo_movie.repository.*;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 import fr.cch.allo_movie.dtos.ActeurDetailDTO;
 import fr.cch.allo_movie.dtos.FilmDetailDTO;
-import fr.cch.allo_movie.entity.ActeursFilms;
-import fr.cch.allo_movie.entity.CategorieFilms;
-import fr.cch.allo_movie.entity.RealisateursFilms;
-import fr.cch.allo_movie.repository.ActeursFilmsRepository;
-import fr.cch.allo_movie.repository.CategorieFilmsRepository;
-import fr.cch.allo_movie.repository.RealisateursFilmsRepository;
 
 import java.util.List;
 import java.util.Optional;
@@ -27,6 +22,11 @@ public class FilmsService {
   private final FilmsRepository filmRepository;
 
   /**
+   * Le repository des catégories
+   */
+  private final CategorieRepository categorieRepository;
+
+  /**
    * Les repositories pour les relations
    */
   private final ActeursFilmsRepository acteursFilmsRepository;
@@ -37,8 +37,9 @@ public class FilmsService {
    * Le constructeur
    * @param filmRepository Injection du repository
    */
-  public FilmsService(FilmsRepository filmRepository, ActeursFilmsRepository acteursFilmsRepository, RealisateursFilmsRepository realisateursFilmsRepository, CategorieFilmsRepository categorieFilmsRepository) {
+  public FilmsService(FilmsRepository filmRepository, CategorieRepository categorieRepository, ActeursFilmsRepository acteursFilmsRepository, RealisateursFilmsRepository realisateursFilmsRepository, CategorieFilmsRepository categorieFilmsRepository) {
     this.filmRepository = filmRepository;
+    this.categorieRepository = categorieRepository;
     this.acteursFilmsRepository = acteursFilmsRepository;
     this.realisateursFilmsRepository = realisateursFilmsRepository;
     this.categorieFilmsRepository = categorieFilmsRepository;
@@ -46,10 +47,36 @@ public class FilmsService {
 
   /**
    * Méthode pour ajouter un film
-   * @return le film ajouté
+   * @param dto Les données du film à ajouter
+   * @return Le film ajouté
    */
-  public Films save(Films film) {
-    return filmRepository.save(film);
+  public Films save(FilmCreateDTO dto) {
+
+    Films film = new Films();
+
+    film.setTitre(dto.getTitre());
+    film.setDateSortie(dto.getDateSortie());
+    film.setSynopsis(dto.getSynopsis());
+    film.setImage(dto.getImage());
+
+    Films filmSauvegarde = filmRepository.save(film);
+
+    if (dto.getCategories() != null) {
+      for (Long categorieId : dto.getCategories()) {
+
+        Categorie categorie = categorieRepository.findById(categorieId)
+          .orElseThrow(() ->
+            new CustomException("Categorie", "id", categorieId)
+          );
+
+        CategorieFilms categorieFilm =
+          new CategorieFilms(categorie, filmSauvegarde);
+
+        categorieFilmsRepository.save(categorieFilm);
+      }
+    }
+
+    return filmSauvegarde;
   }
 
   /**
