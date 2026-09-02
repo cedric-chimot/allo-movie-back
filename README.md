@@ -26,7 +26,7 @@ laquelle on pourra enregistrer des films en favoris.
 
 ## 🖥️ Le rendu sur Workbench
 
-![Capture d'écran 2025-06-12 112556](https://github.com/user-attachments/assets/d0ed34b4-afc8-4a18-b3af-234065ffcd4b)
+<img width="1090" height="874" alt="Capture d&#39;écran 2026-09-02 214936" src="https://github.com/user-attachments/assets/b3aeeb87-44af-41e3-96a8-aab9114289c4" />
 
 
 ### 🔗 Liens
