@@ -16,12 +16,12 @@ laquelle on pourra enregistrer des films en favoris.
 
 ## 🗂️ Le MCD (Modèle Conceptuel de Données)
 
-![Capture d'écran 2025-06-12 111142](https://github.com/user-attachments/assets/205e85e3-842a-4a5f-90e1-b5b095a1098e)
+<img width="1346" height="865" alt="Capture d&#39;écran 2026-09-02 213314" src="https://github.com/user-attachments/assets/b5deaa54-bc9e-45d0-83b1-b4a364a2bf1f" />
 
 
 ## 📊 Le MLD (Modèle Logique de Données)
 
-![Capture d'écran 2025-06-12 111201](https://github.com/user-attachments/assets/ad77bbb0-1b9f-4174-a270-93f9385b4e48)
+<img width="1345" height="861" alt="Capture d&#39;écran 2026-09-02 213334" src="https://github.com/user-attachments/assets/30075b37-9a64-4128-bfd3-91274056703f" />
 
 
 ## 🖥️ Le rendu sur Workbench
