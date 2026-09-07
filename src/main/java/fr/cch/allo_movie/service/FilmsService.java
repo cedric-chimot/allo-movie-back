@@ -196,19 +196,11 @@ public class FilmsService {
       // Vérifier les relations existantes
       for (CategorieFilms relation : categoriesExistantes) {
 
-        Long categorieId =
-          relation.getCategorie().getId();
+        Long categorieId = relation.getCategorie().getId();
 
-        if (filmDTO.getCategories() != null &&
-          filmDTO.getCategories().contains(categorieId)) {
+        if (filmDTO.getCategories() == null ||
+          !filmDTO.getCategories().contains(categorieId)) {
 
-          // La relation existe toujours
-          // donc on la garde
-
-        } else {
-
-          // La catégorie n'est plus sélectionnée
-          // donc on supprime la relation
           categorieFilmsService.delete(relation);
         }
       }
@@ -248,16 +240,9 @@ public class FilmsService {
         Long realisateurId =
           relation.getRealisateurs().getId();
 
-        if (filmDTO.getRealisateurs() != null &&
-          filmDTO.getRealisateurs().contains(realisateurId)) {
+        if (filmDTO.getRealisateurs() == null ||
+          !filmDTO.getRealisateurs().contains(realisateurId)) {
 
-          // La relation existe toujours
-          // donc on la garde
-
-        } else {
-
-          // Le réalisateur n'est plus sélectionné
-          // donc on supprime la relation
           realisateursFilmsService.delete(relation);
         }
       }
