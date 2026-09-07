@@ -2,6 +2,7 @@ package fr.cch.allo_movie.controller;
 
 import fr.cch.allo_movie.dtos.FilmCreateDTO;
 import fr.cch.allo_movie.dtos.FilmDetailDTO;
+import fr.cch.allo_movie.dtos.FilmUpdateDTO;
 import fr.cch.allo_movie.entity.Films;
 import fr.cch.allo_movie.service.FilmsService;
 import org.springframework.http.ResponseEntity;
@@ -89,12 +90,12 @@ public class FilmsController {
   /**
    * Mettre à jour un film
    *
-   * @param film le film à mettre à jour
+   * @param filmUpdateDTO les données du film et ses relations
    * @return le film mis à jour
    */
   @PutMapping("/update")
-  public Films updateFilm(@RequestBody Films film) {
-    return filmService.updateFilm(film);
+  public Films updateFilm(@RequestBody FilmUpdateDTO filmUpdateDTO) {
+    return filmService.updateFilm(filmUpdateDTO);
   }
 
   /**
