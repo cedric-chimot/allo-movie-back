@@ -1,9 +1,8 @@
 package fr.cch.allo_movie.service;
 
-import fr.cch.allo_movie.dtos.ActeurDetailDTO;
-import fr.cch.allo_movie.dtos.FilmDetailDTO;
-import fr.cch.allo_movie.dtos.FilmCreateDTO;
+import fr.cch.allo_movie.dtos.*;
 import fr.cch.allo_movie.entity.ActeursFilms;
+import fr.cch.allo_movie.entity.CategorieFilms;
 import fr.cch.allo_movie.entity.Films;
 import fr.cch.allo_movie.entity.RealisateursFilms;
 import fr.cch.allo_movie.exceptions.CustomException;
@@ -32,20 +31,24 @@ public class FilmsService {
   private final RealisateursFilmsRepository realisateursFilmsRepository;
 
   /**
-   * Le service pour gérer les relations film / catégorie
+   * Le service pour gérer les relations entre les films et les acteurs, catégories et réalisateurs
    */
   private final CategorieFilmsService categorieFilmsService;
+  private final ActeursFilmsService acteursFilmsService;
+  private final RealisateursFilmsService realisateursFilmsService;
 
   /**
    * Le constructeur
    */
   public FilmsService(FilmsRepository filmRepository, ActeursFilmsRepository acteursFilmsRepository, RealisateursFilmsRepository realisateursFilmsRepository,
-    CategorieFilmsService categorieFilmsService
+                      CategorieFilmsService categorieFilmsService, ActeursFilmsService acteursFilmsService, RealisateursFilmsService realisateursFilmsService
   ) {
     this.filmRepository = filmRepository;
     this.acteursFilmsRepository = acteursFilmsRepository;
     this.realisateursFilmsRepository = realisateursFilmsRepository;
     this.categorieFilmsService = categorieFilmsService;
+    this.acteursFilmsService = acteursFilmsService;
+    this.realisateursFilmsService = realisateursFilmsService;
   }
 
   /**
@@ -160,10 +163,12 @@ public class FilmsService {
   /**
    * Mettre à jour un film
    *
-   * @param film L'objet à mettre à jour
+   * @param filmDTO L'objet à mettre à jour
    * @return L'objet mis à jour
    */
-  public Films updateFilm(Films film) {
+  public Films updateFilm(FilmUpdateDTO filmDTO) {
+
+    Films film = filmDTO.getFilm();
 
     Optional<Films> isFilmExist =
       filmRepository.findById(film.getId());
@@ -172,6 +177,7 @@ public class FilmsService {
 
       Films existingFilm = isFilmExist.get();
 
+      // Mise à jour des informations du film
       existingFilm.setTitre(film.getTitre());
       existingFilm.setDateSortie(film.getDateSortie());
       existingFilm.setSynopsis(film.getSynopsis());
@@ -179,6 +185,171 @@ public class FilmsService {
       existingFilm.setDuree(film.getDuree());
       existingFilm.setImage(film.getImage());
       existingFilm.setNoteMoyenne(film.getNoteMoyenne());
+
+      // --------------------------------
+      // Catégories
+      // --------------------------------
+
+      List<CategorieFilms> categoriesExistantes =
+        categorieFilmsService.findByFilmsId(film.getId());
+
+      // Vérifier les relations existantes
+      for (CategorieFilms relation : categoriesExistantes) {
+
+        Long categorieId =
+          relation.getCategorie().getId();
+
+        if (filmDTO.getCategories() != null &&
+          filmDTO.getCategories().contains(categorieId)) {
+
+          // La relation existe toujours
+          // donc on la garde
+
+        } else {
+
+          // La catégorie n'est plus sélectionnée
+          // donc on supprime la relation
+          categorieFilmsService.delete(relation);
+        }
+      }
+
+      // Vérifier les nouvelles catégories
+      if (filmDTO.getCategories() != null) {
+
+        for (Long categorieId : filmDTO.getCategories()) {
+
+          boolean relationExiste = categoriesExistantes.stream()
+            .anyMatch(relation ->
+              relation.getCategorie().getId().equals(categorieId)
+            );
+
+          if (!relationExiste) {
+
+            // La relation n'existe pas
+            // donc on la crée
+            categorieFilmsService.save(
+              categorieId,
+              film.getId()
+            );
+          }
+        }
+      }
+
+      // --------------------------------
+      // Réalisateurs
+      // --------------------------------
+
+      List<RealisateursFilms> realisateursExistants =
+        realisateursFilmsService.findByFilmsId(film.getId());
+
+      // Vérifier les relations existantes
+      for (RealisateursFilms relation : realisateursExistants) {
+
+        Long realisateurId =
+          relation.getRealisateurs().getId();
+
+        if (filmDTO.getRealisateurs() != null &&
+          filmDTO.getRealisateurs().contains(realisateurId)) {
+
+          // La relation existe toujours
+          // donc on la garde
+
+        } else {
+
+          // Le réalisateur n'est plus sélectionné
+          // donc on supprime la relation
+          realisateursFilmsService.delete(relation);
+        }
+      }
+
+      // Vérifier les nouveaux réalisateurs
+      if (filmDTO.getRealisateurs() != null) {
+
+        for (Long realisateurId : filmDTO.getRealisateurs()) {
+
+          boolean relationExiste = realisateursExistants.stream()
+            .anyMatch(relation ->
+              relation.getRealisateurs().getId().equals(realisateurId)
+            );
+
+          if (!relationExiste) {
+
+            // La relation n'existe pas
+            // donc on la crée
+            realisateursFilmsService.save(
+              realisateurId,
+              film.getId()
+            );
+          }
+        }
+      }
+
+      // --------------------------------
+      // Acteurs
+      // --------------------------------
+
+      List<ActeursFilms> acteursExistants =
+        acteursFilmsService.findByFilmsId(film.getId());
+
+      // Vérifier les relations existantes
+      for (ActeursFilms relation : acteursExistants) {
+
+        Long acteurId =
+          relation.getActeurs().getId();
+
+        ActeurFilmDTO nouvelActeur = null;
+
+        if (filmDTO.getActeurs() != null) {
+
+          nouvelActeur = filmDTO.getActeurs()
+            .stream()
+            .filter(acteur ->
+              acteur.getActeurId().equals(acteurId)
+            )
+            .findFirst()
+            .orElse(null);
+        }
+
+        if (nouvelActeur != null) {
+
+          // La relation existe toujours
+          // donc on met à jour le rôle
+          acteursFilmsService.updateRole(
+            relation,
+            nouvelActeur.getRole()
+          );
+
+        } else {
+
+          // L'acteur n'est plus sélectionné
+          // donc on supprime la relation
+          acteursFilmsService.delete(relation);
+        }
+      }
+
+      // Vérifier les nouveaux acteurs
+      if (filmDTO.getActeurs() != null) {
+
+        for (ActeurFilmDTO nouvelActeur : filmDTO.getActeurs()) {
+
+          boolean relationExiste = acteursExistants.stream()
+            .anyMatch(relation ->
+              relation.getActeurs().getId()
+                .equals(nouvelActeur.getActeurId())
+            );
+
+          if (!relationExiste) {
+
+            // La relation n'existe pas
+            // donc on la crée
+            acteursFilmsService.save(
+              nouvelActeur.getActeurId(),
+              film.getId(),
+              nouvelActeur.getRole()
+            );
+          }
+        }
+      }
 
       return filmRepository.save(existingFilm);
 
