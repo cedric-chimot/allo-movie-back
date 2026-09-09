@@ -110,6 +110,7 @@ public class FilmsService {
 
     List<ActeurDetailDTO> acteurs = acteursFilms.stream()
       .map(af -> new ActeurDetailDTO(
+        af.getActeurs().getId(),
         af.getActeurs().getNom(),
         af.getActeurs().getPrenom(),
         af.getRole()

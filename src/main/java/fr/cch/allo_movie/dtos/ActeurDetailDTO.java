@@ -7,8 +7,12 @@ import lombok.Getter;
 @AllArgsConstructor
 public class ActeurDetailDTO {
 
+  private Long id;
+
   private String nom;
+
   private String prenom;
+
   private String role;
 
 }
