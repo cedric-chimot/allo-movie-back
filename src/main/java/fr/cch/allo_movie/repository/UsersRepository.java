@@ -5,6 +5,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.util.List;
+
 public interface UsersRepository extends JpaRepository<Users, Long> {
 
   /**
@@ -21,5 +23,12 @@ public interface UsersRepository extends JpaRepository<Users, Long> {
    */
   @Query("SELECT u FROM Users u WHERE u.email = :email")
   Users findByEmail(@Param("email") String email);
+
+  /**
+   * Récupérer la liste des users non admin
+   * @return la liste des simples users
+   */
+  @Query("SELECT u FROM Users u WHERE UPPER(u.role.role) = 'USER'")
+  List<Users> findAllUsersNonAdmin();
 
 }

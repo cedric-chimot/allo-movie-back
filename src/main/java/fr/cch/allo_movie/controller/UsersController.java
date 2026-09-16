@@ -71,6 +71,15 @@ public class UsersController {
   }
 
   /**
+   * Afficher la liste de tous les utilisateurs non admin
+   * @return la liste des utilisateurs non admin
+   */
+  @GetMapping("/all/non-admin")
+  public List<Users> findAllUsersNonAdmin() {
+    return userService.findAllUsersNonAdmin();
+  }
+
+  /**
    * Trouver un utilisateur par son id
    * @param id l'id d'un utilisateur
    * @return l'utilisateur recherché

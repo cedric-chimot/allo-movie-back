@@ -92,6 +92,14 @@ public class UsersService {
   }
 
   /**
+   * Méthode pour trouver tous les utilisateurs non admin
+   * @return la liste des utilisateurs non admin
+   */
+  public List<Users> findAllUsersNonAdmin() {
+    return userRepository.findAllUsersNonAdmin();
+  }
+
+  /**
    * Méthode pour trouver un utilisateur par son id (retourne l'entité complète)
    * @param id l'id de l'utilisateur recherché
    * @return l'utilisateur trouvé
