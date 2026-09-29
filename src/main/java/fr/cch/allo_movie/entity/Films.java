@@ -47,10 +47,6 @@ public class Films {
   private Double noteMoyenne;
 
   @JsonIgnore
-  @OneToMany(mappedBy = "films", cascade = CascadeType.ALL)
-  private List<CategorieFilms> categorieFilmsList;
-
-  @JsonIgnore
   @ManyToMany
   @JoinTable(
     name = "categorie_films",
