@@ -10,7 +10,6 @@
 Il s’agit de créer une application de découverte et recherche de films, avec
 laquelle on pourra enregistrer des films en favoris.
 
-
 ### Premier aperçu de la bdd (sujet à modification évidemment) :
 
 ## 🗂️ Le MCD (Modèle Conceptuel de Données)
